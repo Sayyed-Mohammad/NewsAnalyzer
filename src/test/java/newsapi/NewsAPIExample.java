@@ -1,18 +1,20 @@
 package newsapi;
 
+import newsanalyzer.ctrl.AnalyzerException;
 import newsapi.beans.Article;
 import newsapi.beans.NewsReponse;
 import newsapi.enums.Category;
 import newsapi.enums.Country;
 import newsapi.enums.Endpoint;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 public class NewsAPIExample {
 
-    public static final String APIKEY = "myAPIKey";
+    public static final String APIKEY = "a4a1aa5ca3644801bb74367e1447c738";
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws MalformedURLException, AnalyzerException {
 
         NewsApi newsApi = new NewsApiBuilder()
                 .setApiKey(APIKEY)

@@ -2,6 +2,7 @@ package newsapi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import newsanalyzer.ctrl.AnalyzerException;
 import newsapi.beans.NewsReponse;
 import newsapi.enums.*;
 
@@ -104,16 +105,17 @@ public class NewsApi {
         this.endpoint = endpoint;
     }
 
-    protected String requestData() {
+    protected String requestData() throws MalformedURLException {
         String url = buildURL();
         System.out.println("URL: "+url);
         URL obj = null;
-        try {
+       // try {
             obj = new URL(url);
-        } catch (MalformedURLException e) {
+
+       // } catch (MalformedURLException e) {
             // TOOO improve ErrorHandling
-            e.printStackTrace();
-        }
+           // e.printStackTrace();
+       // }
         HttpURLConnection con;
         StringBuilder response = new StringBuilder();
         try {
@@ -172,19 +174,21 @@ public class NewsApi {
         return sb.toString();
     }
 
-    public NewsReponse getNews() {
+    public NewsReponse getNews() throws MalformedURLException, AnalyzerException {
         NewsReponse newsReponse = null;
         String jsonResponse = requestData();
         if(jsonResponse != null && !jsonResponse.isEmpty()){
 
             ObjectMapper objectMapper = new ObjectMapper();
             try {
+               // jsonResponse="dfskdjfhk";
                 newsReponse = objectMapper.readValue(jsonResponse, NewsReponse.class);
                 if(!"ok".equals(newsReponse.getStatus())){
                     System.out.println("Error: "+newsReponse.getStatus());
                 }
             } catch (JsonProcessingException e) {
-                System.out.println("Error: "+e.getMessage());
+                // System.out.println("Error: "+e.getMessage());
+                throw new AnalyzerException("JSON- Error");
             }
         }
         //TODO improve Errorhandling
